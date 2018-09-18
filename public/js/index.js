@@ -1,99 +1,41 @@
-// Get references to page elements
-var $exampleText = $("#example-text");
-var $exampleDescription = $("#example-description");
-var $submitBtn = $("#submit");
-var $exampleList = $("#example-list");
+// Creating variables for form fields in index.handlebars
+var $city = $("#city");
+var $category = $("#category");
+var $price = $("#price");
 
-// The API object contains methods for each kind of request we'll make
-var API = {
-  saveExample: function(example) {
+// Creating variables for buttons in index.handlebars 
+var $displayActivitesBtn = $("#displayActivitesBtn");
+
+// Contains methods for each ajax request to send to route/apiRoutes.js  
+var api = {
+  getActivities: function (city, category, price) {
     return $.ajax({
-      headers: {
-        "Content-Type": "application/json"
-      },
-      type: "POST",
-      url: "api/examples",
-      data: JSON.stringify(example)
-    });
-  },
-  getExamples: function() {
-    return $.ajax({
-      url: "api/examples",
+      url: "api/activities/:" + city + "/:" + category + "/:" + price,
       type: "GET"
     });
-  },
-  deleteExample: function(id) {
-    return $.ajax({
-      url: "api/examples/" + id,
-      type: "DELETE"
-    });
   }
-};
+}
 
-// refreshExamples gets new examples from the db and repopulates the list
-var refreshExamples = function() {
-  API.getExamples().then(function(data) {
-    var $examples = data.map(function(example) {
-      var $a = $("<a>")
-        .text(example.text)
-        .attr("href", "/example/" + example.id);
-
-      var $li = $("<li>")
-        .attr({
-          class: "list-group-item",
-          "data-id": example.id
-        })
-        .append($a);
-
-      var $button = $("<button>")
-        .addClass("btn btn-danger float-right delete")
-        .text("ｘ");
-
-      $li.append($button);
-
-      return $li;
-    });
-
-    $exampleList.empty();
-    $exampleList.append($examples);
-  });
-};
-
-// handleFormSubmit is called whenever we submit a new example
-// Save the new example to the db and refresh the list
-var handleFormSubmit = function(event) {
+var handleFormSubmit = function (event) {
   event.preventDefault();
 
-  var example = {
-    text: $exampleText.val().trim(),
-    description: $exampleDescription.val().trim()
+  // Storing the user input data from index.handlebars form fields in an object to send to routes/apiRoutes.js
+  // Also referenced in activities.handlebars 
+  var activitiesData = {
+    city: $city.val().trim(),
+    category: $category.val().trim(),
+    price: $price.val().trim()
   };
 
-  if (!(example.text && example.description)) {
+  // Form Validation
+  if (!(activitiesData.city && activitiesData.category && activitiesData.price)) {
     alert("You must enter an example text and description!");
     return;
   }
 
-  API.saveExample(example).then(function() {
-    refreshExamples();
-  });
+  // Sending AJAX call with user input 
+  api.getActivities(activitiesData);
+}
 
-  $exampleText.val("");
-  $exampleDescription.val("");
-};
+$displayActivitesBtn.on("click", handleFormSubmit);
 
-// handleDeleteBtnClick is called when an example's delete button is clicked
-// Remove the example from the db and refresh the list
-var handleDeleteBtnClick = function() {
-  var idToDelete = $(this)
-    .parent()
-    .attr("data-id");
-
-  API.deleteExample(idToDelete).then(function() {
-    refreshExamples();
-  });
-};
-
-// Add event listeners to the submit and delete buttons
-$submitBtn.on("click", handleFormSubmit);
-$exampleList.on("click", ".delete", handleDeleteBtnClick);

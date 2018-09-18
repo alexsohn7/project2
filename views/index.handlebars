@@ -18,38 +18,11 @@
   </div>
 </section>
 
-<section class="section section-icons center">
-  <div class="container">
-    <div class="row">
-      <div class="col s12 m4">
-        <div id="location" class="card-panel z-depth-2 grey darken-1 ">
-          <i class="material-icons large white-text"> room</i>
-          <h3 class="white-text">Choose a location</h3>
-        </div>
-      </div>
-
-      <div class="col s12 m4">
-        <div id="reservation" class="card-panel z-depth-2 grey darken-1">
-          <i class="material-icons large white-text"> group_add</i>
-          <h3 class="white-text">Make a Reservation</h3>
-        </div>
-      </div>
-
-      <div class="col s12 m4">
-        <div id="memories" class="card-panel z-depth-2 grey darken-1">
-          <i class="material-icons large white-text"> mood</i>
-          <h3 class="white-text">Create lasting memories</h3>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
 <form>
   <div class="input-field col s12">
     <div class="form-group mb-2">
-      <label for="location"></label>
-      <select class="form-control" id="location">
+      <label for="city"></label>
+      <select class="form-control" id="city">
         <option value="disabled" disabled selected>Choose a location</option>
         <option value="downtown_la">Downtown LA</option>
         <option value="beverly_hills">Beverly Hills</option>
@@ -61,9 +34,9 @@
 
     <div class="input-field col s12">
       <div class="form-group mb-2">
-        <label id="type-label" for="type"></label>
-        <select class="form-control" id="type">
-          <option value="" disabled selected> Pick an activity</option>
+        <label id="type-label" for="category"></label>
+        <select class="form-control" id="category">
+          <option value="" disabled selected> Pick a category</option>
           <option value="1">Hotels</option>
           <option value="2">Restaurants</option>
           <option value="3">Attractions</option>
@@ -82,7 +55,7 @@
           </select>
         </div>
 
-        <button class="btn waves-effect waves-light btn-large" type="submit" name="action" id="submit"> Reserve
+        <button class="btn waves-effect waves-light btn-large" type="submit" name="action" id="displayActivitesBtn"> Search
           <i class="material-icons right">send</i>
         </button>
 

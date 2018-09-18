@@ -1,97 +1,101 @@
 DROP DATABASE IF EXISTS travel_db;
 
--- Created the "travel_db" (Only works on local connections)
 CREATE DATABASE travel_db;
+
 USE travel_db;
 
--- Creating the table called "spots"
-CREATE TABLE spots (
-    id INTEGER AUTO_INCREMENT,
-    name VARCHAR(30) NOT NULL,
-    type VARCHAR(15) NOT NULL,
-    price VARCHAR(3) NOT NULL,
-    location VARCHAR(15) NOT NULL,
-    start_time INTEGER(2) NOT NULL,
-    end_time INTEGER(2) NOT NULL,
-    PRIMARY KEY (id)
-);
-
--- Created the table called "userData"
-CREATE TABLE userData (
-    id INTEGER AUTO_INCREMENT,
-    firstName VARCHAR(30) NOT NULL,
-    lastName VARCHAR(50) NOT NULL,
-    phoneNumber INTEGER(10) NOT NULL,
-    email VARCHAR 
-    request VARCHAR(200),
-    rDate date,
-    locationID INTEGER(2) NOT NULL,
-    PRIMARY KEY (id)
-);
-
--- Created the table called "reservations"
 CREATE TABLE reservations (
-    id INTEGER AUTO_INCREMENT,
-    userID INTEGER(4) NOT NULL,
-    locaitonID VARCHAR(2) NOT NULL,
-    rTime INTEGER(2) NOT NULL,
-    rDate date,
-    PRIMARY KEY (id)
+	id INTEGER(10) AUTO_INCREMENT,
+	reserved BOOLEAN DEFAULT FALSE,
+	name VARCHAR(255),
+	phone BIGINT (9),
+	activity_id INTEGER(10),
+	FOREIGN KEY (activity_id) REFERENCES activity(id),
+	PRIMARY KEY(id)
 );
 
--- Inserted data into the "spots" table
-INSERT INTO spots (name, type, price, location, start_time, end_time) 
+CREATE TABLE activity (
+	id INTEGER(10) AUTO_INCREMENT,
+	category VARCHAR(255),
+	name VARCHAR(255),
+	price INTEGER(1),
+	city_id INTEGER(10),
+	PRIMARY KEY (id),
+	FOREIGN KEY (city_id) REFERENCES city(id)
+);
 
--- Restaurnats
-VALUES ("Father's Office", "Restaurants", 1, "Santa Monica", 24, 2),
-("Fig", "Restaurants", 2, "Santa Monica", 7, 22),
-("Melisse", "Restaurants", 3, "Santa Monica", 5, 22),
-("Il Pastio", "Restaurants", 1, "Beverly Hills", 11, 23),
-("Hinoki & the Bird", "Restaurants", 2, "Beverly Hills", 11, 14 ),
-("Spago", "Restaurants", "Expensive", "Beverly Hills", 18, 22),
-("Beverly Soon Tofu", "Restaurants", 1, "Koreantown", 11, 22),
-("Guelaguetza", "Restaurants", 2, "Koreantown", 9, 22),
-("Parks's BBQ", "Restaurants", 3, "Koreantown", 7, 6 ),
-("Grand Central Market", "Restaurants", 1, "Downtown LA", 8, 22),
-("Badmaash", "Restaurants", 2, "Downtown LA", 11, 22),
-("Broken Spanish", "Restaurants", 3, "Downtown LA", 17, 22),
-("Guisados", "Restaurants", 1, "Hollywood", 11, 24),
-("Luv2eat Thai Bistro", "Restaurants", 2, "Hollywood", 11, 23),
-("Toris Mec", "Restaurants", 3, "Hollywood", 18, 24),
+CREATE TABLE city (
+	id INTEGER(10) AUTO_INCREMENT,
+	city VARCHAR(255),
+	PRIMARY KEY (id)
+);
 
--- Attractions
-("Palisades Park", "Attractions", 1, "Santa Monica", 18, 23),
-("Santa Monica Pier", "Attractions", 2, "Santa Monica", 11, 20),
-("Third Street Promenade", "Attractions", 3, "Santa Monica", 10, 21),
-("Rodeo Dr", "Attractions", 1, "Beverly Hills", 10, 18),
-("Virginia Robinson Gardens", "Attractions", 2, "Beverly Hills",18, 22),
-("Saban Theatre", "Attractions", 3, "Beverly Hills", 18, 24),
-("Korean Plaze", "Attractions", 1, "Koreantown", 10, 20),
-("Korean American National Museum", "Attractions", 2, "Koreantown", 10, 18),
-("Chapman Plaza", "Attractions", 3, "Koreantown", 11, 1),
-("Bradbury Building", "Attractions", 1, "Downtown LA", 9, 18),
-("OUE Skyspace LA", "Attractions", 2, "Downtown LA", 10, 21),
-("Walt Disney Concert Hall", "Attractions", "Expensive", "Downtown LA", 9, 17),
-("Walk of Fame", "Atttractions", 1, "Hollywood", 9, 17),
-("TCL Chinese Theatre", "Atttractions", 2, "Hollywood", 12, 23),
-("Hollywood Bowl", "Atttractions", 3, "Hollywood", 10, 18),
+-- Inserting the city values into the city table and also the activity table
+INSERT INTO city (city) VALUES ("Koreatown"); 
+INSERT INTO city (city) VALUES ("Santa Monica");
+INSERT INTO city (city) VALUES ("Downtown Los Angeles");
+INSERT INTO city (city) VALUES ("Beverly Hills");
+INSERT INTO city (city) VALUES ("Hollywood");
 
---  Hotels
-("Courtyard by Marriott", "Hotels", 1, "Santa Monica"),
-("Hotel Casa del Mar", "Hotels", 2, "Santa Monica"),
-("Loews Santa Monica Beach Hotel", "Hotels", 3, "Santa Monica"),
-("Sirtaj Hotel", "Hotels", 1, "Beverly Hills"),
-("SIXTY", "Hotels", 2, "Beverly Hills"),
-("Viceroy L'Ermitage", "Hotels", 3, "Beverly Hills"),
-("Best Western Plus", "Hotels", 1, "Koreantown"),
-("East West Hotel", "Hotels", 2, "Koreantown"),
-("The LINE", "Hotels", 3, "Koreantown"),
-("Freehand", "Hotels", 1, "Downtown LA"),
-("Omni", "Hotels", 2, "Downtown LA"),
-("Ritz-Carlton", "Hotels", 3, "Downtown LA"),
-("Kimpton La Peer Hotel", "Hotels", 1, "Hollywood"),
-("Petit Ermitage", "Hotels", 2, "Hollywood"),
-("The Jeremy West Hollywood", "Hotels", 3, "Hollywood");
+
+
+
+-- Restaurants
+
+-- Koreatown restaurants ordered by cheapest to most expensive
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Beverly Soon Tofu", "1", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Guelaguetza", "1", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Kang-Ho Dong Baek-Jeong", "1", "3");
+
+-- Santa Monica Restaurants ordered by cheapest to most expensive
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Father's Officers","2", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Fig", "2", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Melisse", "2", "3");
+
+-- Downtown Los Angeles Restaurants ordered by cheapest to most expensive 
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Grand Central Market", "3", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Badmaash", "3", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Broken Spanish", "3", "3");
+
+-- Beverly Hills restaurants ordered by cheapest to most expensive
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Il Pastio", "4", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Hinoki & the Bird", "4", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Spago", "4", "3");
+
+-- Hollywood restaurants ordered by cheapest to most expensive 
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Guisados", "5", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Luv2eat Thai Bistro", "5", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Restaurant", "Toris Mec", "5", "3");
+
+
+
+
+-- Hotels 
+
+-- Koreatown Hotels ordered by cheapest to most expensive 
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Best Western Plus", "1", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "East West Hotel", "1", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "The LINE Hotel", "1", "3");
+
+-- Santa Monica Hotels ordered by cheapest to most expensive
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Courtyard by Marriott", "2", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Hotel Casa del Mar", "2", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Loews Santa Monica Beach Hotel", "2", "3");
+
+-- Downtown Los Angeles Hotels ordered by cheapest to most expensive 
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Freehand", "3", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Omni", "3", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Ritz-Carlton", "3", "3");
+
+-- Beverly Hills Hotels ordered by cheapest to most expensive
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Sirtaj Hotel", "4", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "SIXTY", "4", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Viceroy L'Ermitage", "4", "3");
+
+-- Hollywood Hotels ordered by cheapest to most expensive 
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Kimpton La Peer Hotel", "5", "1");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "Petit Ermitage", "5", "2");
+INSERT INTO activity (category,name, city_id, price) VALUES ("Hotel", "The Jeremy West Hollywood", "5", "3");
 
 
 
